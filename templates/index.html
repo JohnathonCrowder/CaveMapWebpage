@@ -2,28 +2,30 @@
 <html>
 <head>
     <title>Cave Mapper</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
-    <style>
-        #map {
-            height: 600px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 <body>
-    <div id="map"></div>
-    <div id="controls">
-        <input type="text" id="search_query" placeholder="Search caves...">
-        <input type="text" id="distance" placeholder="Distance (miles)">
-        <select id="state">
-            <option value="All States">All States</option>
-        </select>
-        <select id="country">
-            <option value="All Countries">All Countries</option>
-        </select>
-        <button id="filter_button">Filter</button>
-        <button id="show_all_button">Show All Caves</button>
-        <button id="user_location_button">Show My Location</button>
+    <div class="container">
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        <div class="controls-container">
+            <input type="text" id="search-input" placeholder="Search caves...">
+            <input type="text" id="distance-input" placeholder="Distance (miles)">
+            <select id="state-dropdown">
+                <option value="">All States</option>
+            </select>
+            <select id="country-dropdown">
+                <option value="">All Countries</option>
+            </select>
+            <ul id="cave-list"></ul>
+            <button id="show-cave-button">Show on Map</button>
+            <button id="user-location-button">Show My Location</button>
+            <button id="show-all-button">Show All Caves</button>
+            <label><input type="checkbox" id="satellite-checkbox"> Satellite Mode</label>
+        </div>
     </div>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>

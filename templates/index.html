@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cave Mapper</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="controls">
+        <input type="text" id="search_query" placeholder="Search caves...">
+        <input type="text" id="distance" placeholder="Distance (miles)">
+        <select id="state">
+            <option value="All States">All States</option>
+        </select>
+        <select id="country">
+            <option value="All Countries">All Countries</option>
+        </select>
+        <button id="filter_button">Filter</button>
+        <button id="show_all_button">Show All Caves</button>
+        <button id="user_location_button">Show My Location</button>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     var map = L.map('map').setView([0, 0], 2);
-    var markers = L.layerGroup().addTo(map);
+    var markers = L.markerClusterGroup();
     var userMarker = null;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,15 +27,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    fetch('/get_caves')
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(cave => {
-                var marker = L.marker([cave.latitude, cave.longitude]).addTo(markers);
-                marker.bindPopup(`<b>${cave.cave}</b><br>Latitude: ${cave.latitude}<br>Longitude: ${cave.longitude}`);
+    function loadCaves() {
+        fetch('/get_caves')
+            .then(response => response.json())
+            .then(data => {
+                markers.clearLayers(); // Clear existing markers
+                data.forEach(cave => {
+                    var marker = L.marker([cave.latitude, cave.longitude]);
+                    marker.bindPopup(`<b>${cave.cave}</b><br>Latitude: ${cave.latitude}<br>Longitude: ${cave.longitude}`);
+                    markers.addLayer(marker);
+                });
+                map.addLayer(markers);
             });
-            map.fitBounds(markers.getBounds());
-        });
+    }
+
+    loadCaves(); // Load caves initially
 
     var caveList = document.getElementById('cave-list');
     var showCaveButton = document.getElementById('show-cave-button');
@@ -70,12 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     userMarker = L.marker([data.latitude, data.longitude]).addTo(map);
                     userMarker.bindPopup('Your Location');
                     map.setView([data.latitude, data.longitude], 10);
+                    loadCaves(); // Load caves after showing user location
                 }
             });
     });
 
     showAllButton.addEventListener('click', function() {
-        map.fitBounds(markers.getBounds());
+        loadCaves(); // Reload caves
+        map.fitBounds(markers.getBounds()); // Fit map bounds to markers
     });
 
     // Add event listeners and filtering functionality for search input, distance input, state dropdown, and country dropdown

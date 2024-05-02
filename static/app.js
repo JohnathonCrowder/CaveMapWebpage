@@ -86,6 +86,57 @@ document.addEventListener('DOMContentLoaded', function() {
         map.fitBounds(markers.getBounds()); // Fit map bounds to markers
     });
 
-    // Add event listeners and filtering functionality for search input, distance input, state dropdown, and country dropdown
-    // ...
+    // Load regions dropdown
+// Load regions dropdown
+function loadRegions() {
+    fetch('/get_regions')
+        .then(response => response.json())
+        .then(data => {
+            var regionDropdown = document.getElementById('region-dropdown');
+            data.forEach(region => {
+                var option = document.createElement('option');
+                option.value = region;
+                option.textContent = region;
+                regionDropdown.appendChild(option);
+            });
+        });
+}
+
+loadRegions(); // Load regions initially
+
+// Update loadCaves function to include region filtering and zooming
+function loadCaves() {
+    var region = document.getElementById('region-dropdown').value;
+    var url = '/get_caves';
+    if (region) {
+        url += '?region=' + encodeURIComponent(region);
+    }
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            markers.clearLayers(); // Clear existing markers
+            var bounds = L.latLngBounds();
+            data.forEach(cave => {
+                var marker = L.marker([cave.latitude, cave.longitude]);
+                marker.bindPopup(`<b>${cave.cave}</b><br>Latitude: ${cave.latitude}<br>Longitude: ${cave.longitude}<br>Region: ${cave.region}`);
+                markers.addLayer(marker);
+                bounds.extend(marker.getLatLng());
+            });
+            map.addLayer(markers);
+
+            if (region) {
+                // Zoom in on the selected region
+                map.fitBounds(bounds);
+            } else {
+                // Show the default map
+                map.setView([0, 0], 2);
+            }
+        });
+}
+
+// Add event listener for region dropdown
+var regionDropdown = document.getElementById('region-dropdown');
+regionDropdown.addEventListener('change', function() {
+    loadCaves(); // Reload caves when region is selected
+});
 });

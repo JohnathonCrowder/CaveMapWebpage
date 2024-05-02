@@ -29,8 +29,24 @@ def get_caves():
     filepath = r"E:\Github\Cave_Map\Cave_map.csv"
     df = csv_to_dataframe(filepath)
     if df is not None:
-        caves = df[['cave', 'latitude', 'longitude']].dropna().to_dict(orient='records')
+        region = request.args.get('region', '')
+        if region:
+            # Filter out rows with NaN or NA values in the 'region' column
+            df = df[df['region'].notna()]
+            # Filter the DataFrame based on the selected region
+            df = df[df['region'].str.contains(region, case=False)]
+        caves = df[['cave', 'latitude', 'longitude', 'region']].dropna().to_dict(orient='records')
         return jsonify(caves)
+    else:
+        return jsonify([])
+
+@app.route('/get_regions')
+def get_regions():
+    filepath = r"E:\Github\Cave_Map\Cave_map.csv"
+    df = csv_to_dataframe(filepath)
+    if df is not None:
+        regions = df['region'].dropna().unique().tolist()
+        return jsonify(regions)
     else:
         return jsonify([])
 

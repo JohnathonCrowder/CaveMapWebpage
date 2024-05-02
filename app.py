@@ -30,11 +30,13 @@ def get_caves():
     df = csv_to_dataframe(filepath)
     if df is not None:
         region = request.args.get('region', '')
+        cave_name = request.args.get('cave_name', '')
         if region:
-            # Filter out rows with NaN or NA values in the 'region' column
             df = df[df['region'].notna()]
-            # Filter the DataFrame based on the selected region
             df = df[df['region'].str.contains(region, case=False)]
+        if cave_name:
+            df = df[df['cave'].notna()]
+            df = df[df['cave'].str.contains(cave_name, case=False)]
         caves = df[['cave', 'latitude', 'longitude', 'region']].dropna().to_dict(orient='records')
         return jsonify(caves)
     else:

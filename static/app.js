@@ -93,6 +93,7 @@ function loadRegions() {
         .then(response => response.json())
         .then(data => {
             var regionDropdown = document.getElementById('region-dropdown');
+            data.sort(); // Sort the regions alphabetically
             data.forEach(region => {
                 var option = document.createElement('option');
                 option.value = region;
@@ -107,14 +108,22 @@ loadRegions(); // Load regions initially
 // Update loadCaves function to include region filtering and zooming
 function loadCaves() {
     var region = document.getElementById('region-dropdown').value;
+    var caveName = document.getElementById('search-input').value;
     var url = '/get_caves';
+    var params = [];
     if (region) {
-        url += '?region=' + encodeURIComponent(region);
+        params.push('region=' + encodeURIComponent(region));
+    }
+    if (caveName) {
+        params.push('cave_name=' + encodeURIComponent(caveName));
+    }
+    if (params.length > 0) {
+        url += '?' + params.join('&');
     }
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            markers.clearLayers(); // Clear existing markers
+            markers.clearLayers();
             var bounds = L.latLngBounds();
             data.forEach(cave => {
                 var marker = L.marker([cave.latitude, cave.longitude]);
@@ -124,15 +133,18 @@ function loadCaves() {
             });
             map.addLayer(markers);
 
-            if (region) {
-                // Zoom in on the selected region
+            if (region || caveName) {
                 map.fitBounds(bounds);
             } else {
-                // Show the default map
                 map.setView([0, 0], 2);
             }
         });
 }
+
+var searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', function() {
+    loadCaves(); // Reload caves when search input changes
+});
 
 // Add event listener for region dropdown
 var regionDropdown = document.getElementById('region-dropdown');

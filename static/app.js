@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCaves(); // Load caves initially
 
     var caveList = document.getElementById('cave-list');
-    var showCaveButton = document.getElementById('show-cave-button');
     var userLocationButton = document.getElementById('user-location-button');
     var showAllButton = document.getElementById('show-all-button');
 
@@ -56,16 +55,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    showCaveButton.addEventListener('click', function() {
-        var selectedCave = caveList.querySelector('.selected');
-        if (selectedCave) {
-            var latitude = selectedCave.getAttribute('data-latitude');
-            var longitude = selectedCave.getAttribute('data-longitude');
-            map.setView([latitude, longitude], 10);
-        }
-    });
+  
 
     userLocationButton.addEventListener('click', function() {
+        // Clear the search input
+        document.getElementById('search-input').value = '';
+        
+        // Reset the region dropdown to "All Regions"
+        document.getElementById('region-dropdown').value = '';
+        
+        // Clear the existing markers
+        markers.clearLayers();
+        
+        // Fetch the user's location and update the map
         fetch('/get_user_location')
             .then(response => response.json())
             .then(data => {
@@ -76,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     userMarker = L.marker([data.latitude, data.longitude]).addTo(map);
                     userMarker.bindPopup('Your Location');
                     map.setView([data.latitude, data.longitude], 10);
-                    loadCaves(); // Load caves after showing user location
                 }
             });
     });

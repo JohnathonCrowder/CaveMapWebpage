@@ -2,6 +2,6 @@
 Flask==3.0.3
 pandas
 folium
-geopy.distance
+geopy
 geocoder
 gunicorn

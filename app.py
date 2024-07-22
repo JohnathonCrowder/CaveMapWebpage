@@ -26,7 +26,7 @@ def index():
 
 @app.route('/get_caves')
 def get_caves():
-    filepath = r"E:\Github\Cave_Map\Cave_map.csv"
+    filepath = r"Cave_map.csv"
     df = csv_to_dataframe(filepath)
     if df is not None:
         region = request.args.get('region', '')
@@ -44,7 +44,7 @@ def get_caves():
 
 @app.route('/get_regions')
 def get_regions():
-    filepath = r"E:\Github\Cave_Map\Cave_map.csv"
+    filepath = r"Cave_map.csv"
     df = csv_to_dataframe(filepath)
     if df is not None:
         regions = df['region'].dropna().unique().tolist()

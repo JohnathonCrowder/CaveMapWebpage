@@ -185,7 +185,7 @@ sniffio==1.3.1
 soundfile==0.11.0
 SQLAlchemy==2.0.25
 starlette==0.37.2
-storyteller-core==0.0.4
+storyteller-core
 super-image==0.1.7
 sympy==1.12
 tbb==2021.12.0

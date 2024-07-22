@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 import pandas as pd
 import folium
-from geopy import geodesic
+from geopy.distance import geodesic
 import geocoder
 
 app = Flask(__name__)

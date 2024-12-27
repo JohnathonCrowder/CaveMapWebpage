@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Cave Mapper{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gradient-to-r from-blue-500 to-indigo-600 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{{ url_for('index') }}" class="text-2xl font-bold text-white">Cave Mapper</a>
+            <div class="flex items-center">
+                <a href="{{ url_for('index') }}" class="text-white hover:text-gray-200 px-4 py-2">Home</a>
+                <a href="{{ url_for('about') }}" class="text-white hover:text-gray-200 px-4 py-2">About</a>
+                <a href="{{ url_for('contact') }}" class="text-white hover:text-gray-200 px-4 py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto py-8">
+        {% block content %}
+        <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
+        <form action="{{ url_for('submit_contact_form') }}" method="POST" class="max-w-lg mx-auto">
+            <div class="mb-4">
+                <label for="name" class="block mb-2 font-bold text-gray-700">Name</label>
+                <input type="text" id="name" name="name" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" required>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block mb-2 font-bold text-gray-700">Email</label>
+                <input type="email" id="email" name="email" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" required>
+            </div>
+            <div class="mb-4">
+                <label for="subject" class="block mb-2 font-bold text-gray-700">Subject</label>
+                <input type="text" id="subject" name="subject" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" required>
+            </div>
+            <div class="mb-4">
+                <label for="message" class="block mb-2 font-bold text-gray-700">Message</label>
+                <textarea id="message" name="message" rows="5" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" required></textarea>
+            </div>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Submit</button>
+        </form>
+        {% endblock %}
+    </div>
+    <footer class="bg-gray-800 py-6">
+        <div class="container mx-auto text-center text-white">
+            <p>&copy; 2023 Cave Mapper. All rights reserved.</p>
+            <div class="mt-4">
+                <a href="#" class="text-white hover:text-gray-300 mr-4">Terms of Service</a>
+                <a href="#" class="text-white hover:text-gray-300">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

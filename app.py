@@ -59,6 +59,31 @@ def get_user_location():
         return jsonify({'latitude': location.latlng[0], 'longitude': location.latlng[1]})
     else:
         return jsonify({'latitude': None, 'longitude': None})
+    
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/submit-contact-form', methods=['POST'])
+def submit_contact_form():
+    name = request.form['name']
+    email = request.form['email']
+    subject = request.form['subject']
+    message = request.form['message']
+    
+    # Process the form data, send an email, or store it in a database
+    
+    return 'Thank you for your message!'
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

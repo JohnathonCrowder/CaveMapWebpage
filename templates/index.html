@@ -1,34 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cave Mapper</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="map-container">
-            <div id="map"></div>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mx-auto py-8"> <div class="grid grid-cols-1 md:grid-cols-3 gap-8"> <div class="md:col-span-2 map-container"> <div id="map" class="w-full h-96 md:h-[600px] rounded-lg shadow-lg"></div> </div> <div class="controls-container bg-white p-6 rounded-lg shadow-lg"> <h2 class="text-xl font-bold mb-6">Search Caves</h2> <div class="mb-6"> <label for="search-input" class="block mb-2 font-medium">Search:</label> <input type="text" id="search-input" placeholder="Enter cave name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"> </div> <div class="mb-6"> <label for="distance-input" class="block mb-2 font-medium">Distance (miles):</label> <input type="text" id="distance-input" placeholder="Enter distance" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"> </div> <div class="mb-6"> <label for="region-dropdown" class="block mb-2 font-medium">Region:</label> <select id="region-dropdown" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"> <option value="">All Regions</option> </select> </div> <div class="mb-6"> <label for="country-dropdown" class="block mb-2 font-medium">Country:</label> <select id="country-dropdown" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"> <option value="">All Countries</option> </select> </div> <div class="mb-6"> <h3 class="font-bold mb-2">Cave List:</h3> <ul id="cave-list" class="divide-y divide-gray-200 max-h-60 overflow-y-auto"></ul> </div> <div class="mb-6"> <button id="user-location-button" class="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Show My Location</button> </div> <div class="mb-6"> <button id="show-all-button" class="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Show All Caves</button> </div> <div class="flex items-center"> <input type="checkbox" id="satellite-checkbox" class="mr-2"> <label for="satellite-checkbox">Satellite Mode</label> </div> </div> </div>
+<!-- Creative Section -->
+<div class="creative-section mt-8">
+    <h2 class="text-2xl font-bold mb-4">Explore the Wonders of Caves</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="creative-item">
+            <img src="{{ url_for('static', filename='cave1.jpg') }}" alt="Cave 1" class="w-full h-64 object-cover rounded-lg shadow-lg">
+            <h3 class="text-lg font-bold mt-4">Discover Hidden Gems</h3>
+            <p class="mt-2">Embark on an adventure and uncover the hidden gems of the underground world. From stunning rock formations to ancient artifacts, caves hold countless treasures waiting to be explored.</p>
         </div>
-        <div class="controls-container">
-            <input type="text" id="search-input" placeholder="Search caves...">
-            <input type="text" id="distance-input" placeholder="Distance (miles)">
-            <select id="region-dropdown">
-                <option value="">All Regions</option>
-            </select>
-            <select id="country-dropdown">
-                <option value="">All Countries</option>
-            </select>
-            <ul id="cave-list"></ul>
-            <button id="user-location-button">Show My Location</button>
-            <button id="show-all-button">Show All Caves</button>
-            <label><input type="checkbox" id="satellite-checkbox"> Satellite Mode</label>
+        <div class="creative-item">
+            <img src="{{ url_for('static', filename='cave2.jpg') }}" alt="Cave 2" class="w-full h-64 object-cover rounded-lg shadow-lg">
+            <h3 class="text-lg font-bold mt-4">Unleash Your Inner Explorer</h3>
+            <p class="mt-2">Step out of your comfort zone and unleash your inner explorer. Caves offer a unique and thrilling experience that will test your limits and reward you with unforgettable memories.</p>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
-</body>
-</html>
+</div>
+</div> {% endblock %}
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}
